@@ -2,8 +2,8 @@ local ulx_namespace = reis_chat_tags.setting_namespace:AddChild("ulx")
 
 local function AddULXTag(group, text, color)
     local group_namespace = ulx_namespace:AddChild(group)
-    group_namespace:AddSetting("color", pacoman.TYPE_COLOR, color, "The color of the ".. group .." tag.")
-    group_namespace:AddSetting("text", pacoman.TYPE_STRING, text, "The text of the ".. group .." tag.")
+    group_namespace:AddSetting("color", pacoman.TYPE_COLOR, color, "The color of the " .. group .. " tag.")
+    group_namespace:AddSetting("text", pacoman.TYPE_STRING, text, 'The text of the ' .. group .. ' tag. Leave this empty to hide the tag entirely.')
 end
 
 for k, v in SortedPairs(CAMI.GetUsergroups()) do
