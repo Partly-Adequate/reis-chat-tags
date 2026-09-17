@@ -1,16 +1,15 @@
+require("pacoman")
+
+reis_chat_tags = {}
+reis_chat_tags.setting_namespace = pacoman.client_settings:AddChild("chat_tags")
 
 local GMOnPlayerChat
 local ChatAddText
-
 local prefix = {}
 
-local function OnPlayerChat(self, ply, strText, bTeam, bDead)
-    prefix = {Color(255, 100, 100, 255), "hello", " "} -- prepare player prefix
-    local result = GMOnPlayerChat(self, ply, strText, bTeam, bDead);
-    if (result) then
-        return true
-    end
-end
+hook.Add("RCT_GetChatTag", "GetChatTag", function(ply)
+    return {}
+end)
 
 local function isplayer(value)
     return isentity(value) && value:IsPlayer()
@@ -24,25 +23,19 @@ local function AddText(...)
     for i = 1, #text do
         index = i
         if(isplayer(text[i])) then
-            table.Add(args, prefix)
-            break
+            table.Add(args, hook.Run("RCT_GetChatTag", text[i]))
         end
-        table.insert(args, text[i])
-    end
-
-    prefix = {} -- consume player prefix
-
-    for i = index, #text do
         table.insert(args, text[i])
     end
 
     ChatAddText(unpack(args))
 end
 
-hook.Add("OnGamemodeLoaded", "RCT_OnGamemodeLoaded", function()
-    GMOnPlayerChat = gmod.GetGamemode().OnPlayerChat
-    gmod.GetGamemode().OnPlayerChat = OnPlayerChat
-
+hook.Add("InitPostEntity", "RCT_InitPostEntity", function()
     ChatAddText = chat.AddText
     chat.AddText = AddText
+
+    if(ulx) then
+	    include("reis_chat_tags/client/cl_ulx.lua")
+    end
 end)

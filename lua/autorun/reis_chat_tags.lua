@@ -1,6 +1,6 @@
 if SERVER then
-	AddCSLuaFile()
     AddCSLuaFile("reis_chat_tags/client/cl_init.lua")
+    AddCSLuaFile("reis_chat_tags/client/cl_ulx.lua")
 else
-	include("reis_chat_tags/client/cl_init.lua")
+    include("reis_chat_tags/client/cl_init.lua")
 end
